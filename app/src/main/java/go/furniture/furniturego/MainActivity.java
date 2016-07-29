@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -130,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFurPreviewSave(View view) {
+        if(null == mImageView){
+            goToast("No photo taken");
+            return;
+        }
         //Get text and save image
         EditText edtFur = (EditText) findViewById(R.id.edtFurPreview);
         saveImage(this.getBaseContext(), addText(mBitmap,edtFur.getText().toString()));
@@ -167,10 +172,10 @@ public class MainActivity extends AppCompatActivity {
             try {
                 fos.close();
                 addImageGallery(imageFile);
+                goToast(imageFile.getName()+" saved");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -192,6 +197,15 @@ public class MainActivity extends AppCompatActivity {
         values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+    }
+
+    Toast mToast;
+    private void goToast(String msg){
+        if(null != mToast){
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
 }
