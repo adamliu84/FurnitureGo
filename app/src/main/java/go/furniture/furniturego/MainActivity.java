@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -129,7 +130,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFurPreviewSave(View view) {
-        saveImage(this.getBaseContext(), addText(mBitmap, getCurrentDateAndTime() + "Test"));
+        //Get text and save image
+        EditText edtFur = (EditText) findViewById(R.id.edtFurPreview);
+        saveImage(this.getBaseContext(), addText(mBitmap,edtFur.getText().toString()));
     }
 
     @Override
