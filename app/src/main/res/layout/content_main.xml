@@ -16,4 +16,25 @@
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:id="@+id/imvFurPreview" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/edtFurPreview"
+        android:layout_below="@+id/imvFurPreview"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/imvFurPreview"
+        android:lines="3"
+        android:maxLines="3"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/btnFurPreviewSave"
+        android:layout_below="@+id/edtFurPreview"
+        android:layout_centerHorizontal="true"
+        android:onClick="onFurPreviewSave" />
 </RelativeLayout>
