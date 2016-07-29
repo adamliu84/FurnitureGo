@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private final String NameOfFolder = "/FurnitureGo";
     private final String NameOfFile = "furGogo";
+    Toast mToast;
     private ImageView mImageView;
     private Bitmap mBitmap;
 
@@ -131,13 +132,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFurPreviewSave(View view) {
-        if(null == mImageView){
+        if (null == mImageView) {
             goToast("No photo taken");
             return;
         }
         //Get text and save image
         EditText edtFur = (EditText) findViewById(R.id.edtFurPreview);
-        saveImage(this.getBaseContext(), addText(mBitmap,edtFur.getText().toString()));
+        saveImage(this.getBaseContext(), addText(mBitmap, edtFur.getText().toString()));
     }
 
     @Override
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 fos.close();
                 addImageGallery(imageFile);
-                goToast(imageFile.getName()+" saved");
+                goToast(imageFile.getName() + " saved");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -199,9 +200,8 @@ public class MainActivity extends AppCompatActivity {
         getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
-    Toast mToast;
-    private void goToast(String msg){
-        if(null != mToast){
+    private void goToast(String msg) {
+        if (null != mToast) {
             mToast.cancel();
         }
         mToast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
