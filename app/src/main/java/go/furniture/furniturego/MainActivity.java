@@ -34,12 +34,12 @@ import go.furniture.furniturego.manager.ImageManager;
 public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private final String NameOfFolder = "/FurnitureGo";
-    private final String NameOfFile = "furGogo";
+//    private final String FOLDER_NAME = "/FurnitureGo";
+//    private final String FILE_NAME_PREFIX = "furGogo";
     Toast mToast;
     private ImageView mImageView;
     private Bitmap mBitmap;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +95,14 @@ public class MainActivity extends AppCompatActivity {
         }
         //Get text and save image
         EditText edtFur = (EditText) findViewById(R.id.edtFurPreview);
-        saveImage(this.getBaseContext(), ImageManager.addText(mBitmap, edtFur.getText().toString()));
+        try{
+            File imageFile = ImageManager.saveImage(ImageManager.addText(mBitmap, edtFur.getText().toString()));
+            addImageGallery(imageFile);
+            goToast(imageFile.getName() + " saved");
+        }catch(Exception e){
+            goToast(e.getMessage());
+        }
+
     }
 
     @Override
@@ -106,42 +113,6 @@ public class MainActivity extends AppCompatActivity {
             mBitmap = ImageManager.decodeSampledBitmapFromFile(file.getAbsolutePath(), 800, 600);
             mImageView.setImageBitmap(mBitmap);
         }
-    }
-
-    public void saveImage(Context context, Bitmap ImageToSave) {
-        // Create imageDir
-        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + NameOfFolder;
-        String CurrentDateAndTime = getCurrentDateAndTime();
-        File directory = new File(file_path);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-        // Create image
-        File imageFile = new File(directory, NameOfFile + CurrentDateAndTime + ".jpg");
-        Log.d("imageFile", imageFile.getAbsolutePath());
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(imageFile);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            ImageToSave.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-                addImageGallery(imageFile);
-                goToast(imageFile.getName() + " saved");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String getCurrentDateAndTime() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
     }
 
     /**

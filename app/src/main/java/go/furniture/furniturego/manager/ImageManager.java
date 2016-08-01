@@ -6,11 +6,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by adam on 1/8/16.
  */
 public class ImageManager {
+
+    public final static String FOLDER_NAME = "/FurnitureGo";
+    public final static String FILE_NAME_PREFIX = "furGogo";
 
     public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) { // BEST QUALITY MATCH
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -57,4 +67,37 @@ public class ImageManager {
         return destBitmap;
     }
 
+    public static File saveImage(Bitmap ImageToSave) throws Exception {
+        // Create imageDir
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + FOLDER_NAME;
+        String CurrentDateAndTime = getCurrentDateAndTime();
+        File directory = new File(file_path);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        // Create image
+        File imageFile = new File(directory, FILE_NAME_PREFIX + CurrentDateAndTime + ".jpg");
+        Log.d("imageFile", imageFile.getAbsolutePath());
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            ImageToSave.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            throw(e);
+        } finally {
+            try {
+                fos.close();
+            } catch (Exception e) {
+                throw(e);
+            }
+        }
+        return imageFile;
+    }
+
+    private static String getCurrentDateAndTime() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        return df.format(c.getTime());
+    }
 }
