@@ -18,15 +18,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
         android:id="@+id/edtFurPreview"
-        android:layout_below="@+id/imvFurPreview"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/imvFurPreview"
-        android:lines="3"
-        android:maxLines="3"
-        android:background="@color/colorPrimaryDark" />
+         />
 
     <Button
         android:layout_width="wrap_content"
