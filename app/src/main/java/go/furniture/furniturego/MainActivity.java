@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.io.File;
@@ -95,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         }
         //Get text and save image
         EditText edtFur = (EditText) findViewById(R.id.edtFurPreview);
+        EditText edtFurPrice = (EditText) findViewById(R.id.edtFurPrice);
+        RatingBar rabFurStar = (RatingBar) findViewById(R.id.rabFurStar);
         try{
-            File imageFile = ImageManager.saveImage(ImageManager.addText(mBitmap, edtFur.getText().toString()));
+            File imageFile = ImageManager.saveImage(ImageManager.addText(mBitmap,Math.round(rabFurStar.getRating()), edtFurPrice.getText().toString(), edtFur.getText().toString()));
             addImageGallery(imageFile);
             goToast(imageFile.getName() + " saved");
         }catch(Exception e){

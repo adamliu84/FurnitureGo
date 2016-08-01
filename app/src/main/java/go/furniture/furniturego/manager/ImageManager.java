@@ -47,9 +47,10 @@ public class ImageManager {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static Bitmap addText(Bitmap srcBitmap, String gText) {
+    public static Bitmap addText(Bitmap srcBitmap, int nStars, String szPrice ,String gText) {
         Bitmap destBitmap = srcBitmap.copy(srcBitmap.getConfig(), true);
         Canvas canvas = new Canvas(destBitmap);
+
         // new antialised Paint
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         // text color - #3D3D3D
@@ -64,6 +65,31 @@ public class ImageManager {
         int x = (destBitmap.getWidth() - bounds.width()) / 2;
         int y = (destBitmap.getHeight() + bounds.height()) / 2;
         canvas.drawText(gText, x, y, paint);
+
+        // draw price
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.rgb(61, 61, 61));
+        paint.setTextSize(50);
+        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+        bounds = new Rect();
+        szPrice = "$"+szPrice;
+        paint.getTextBounds(szPrice , 0, szPrice .length(), bounds);
+        canvas.drawText(szPrice , 20, 50, paint);
+
+        // draw star
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.rgb(61, 61, 61));
+        paint.setTextSize(60);
+        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+        bounds = new Rect();
+        StringBuilder szBuilder = new StringBuilder();
+        for(int i=0;i < nStars; i++){
+            szBuilder.append("★");
+        }
+        String szStarInput = szBuilder.toString();
+        paint.getTextBounds(szStarInput , 0, szStarInput .length(), bounds);
+        canvas.drawText(szStarInput , 20, 90, paint);
+        
         return destBitmap;
     }
 
