@@ -64,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Menu item to quick open Gallery application to review photo
+     * @param item
+     */
+    public void onOpenGallery(MenuItem item){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
+        startActivity(intent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
